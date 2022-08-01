@@ -5,8 +5,8 @@ import { Link as LinkMaterial } from 'react-router-dom';
 
 const LinkPersonalized = styled(LinkMaterial)(() => ({
   textDecoration: 'none',
-  color: 'white',
-  fontFamily: '"Roboto","Helvetica","Arial",sans-serif'
+  fontFamily: 'Poppins',
+  color: 'white'
 }));
 function SidebarLink(props) {
   const { title, icon, link } = props;

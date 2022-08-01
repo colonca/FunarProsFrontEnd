@@ -15,8 +15,8 @@ import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import Logo from '../assets/images/logo-blanco.png';
 
 // componentss
-import SidebarDropdown from '../components/SidebarDropdown';
-import SidebarLink from '../components/SidebarLink';
+import SidebarDropdown from '../components/SidebarDropdown/index';
+import SidebarLink from '../components/SidebarLink/index';
 
 // import '../assets/sidebar.css';
 
@@ -40,9 +40,9 @@ function Sidebar() {
       >
         <SidebarDropdown icon={<BusinessOutlinedIcon />} title="Gestión">
           <SidebarLink
-            link="gestion/esudiante"
+            link="gestion/institucion"
             icon={<HistoryEduOutlinedIcon />}
-            title="Estudiantes"
+            title="Instituciones"
           />
           <SidebarLink
             link="gestion/empleado"

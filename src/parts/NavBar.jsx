@@ -1,5 +1,4 @@
 import {
-  Box,
   List,
   ListItem,
   ListItemIcon,
@@ -25,7 +24,7 @@ function Navbar() {
       }}
     >
       <Stack sx={{ padding: '10px', justifyContent: 'center' }} flexGrow={1}>
-        <Typography>FUNARPROS Fundacion Árbol Próspero</Typography>
+        <Typography>FUNARPROS</Typography>
       </Stack>
 
       <Stack>
