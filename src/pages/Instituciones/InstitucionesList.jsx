@@ -35,7 +35,9 @@ function InstitucionesList() {
     ],
     []
   );
-  const handleEditInstitucion = useCallback((institucion) => {}, []);
+  const handleEditInstitucion = useCallback((institucion) => {
+    institucionModal.show({ institucion });
+  });
   async function fechDataDepartamentos() {
     try {
       const response = await DepartamentosServices.get();
@@ -106,23 +108,23 @@ function InstitucionesList() {
             </Row>
           </TableHead>
           <TableBody>
-            {instituciones.map((row) => (
+            {instituciones.map((institucion) => (
               <Row
-                key={row.id}
+                key={institucion.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <Cell>{row.identificacion}</Cell>
-                <Cell>{row.nombre}</Cell>
-                <Cell>{row.tipo}</Cell>
-                <Cell>{row.inicio_convenio}</Cell>
-                <Cell>{row.telefono}</Cell>
-                <Cell>{row.term_id}</Cell>
-                <Cell>{row.tipo}</Cell>
+                <Cell>{institucion.identificacion}</Cell>
+                <Cell>{institucion.nombre}</Cell>
+                <Cell>{institucion.tipo}</Cell>
+                <Cell>{institucion.inicio_convenio}</Cell>
+                <Cell>{institucion.telefono}</Cell>
+                <Cell>{institucion.term_id}</Cell>
+                <Cell>{institucion.tipo}</Cell>
                 <Cell>
                   <ButtonView onClick={() => {}} />
                   <ButtonEdit
                     onClick={() => {
-                      handleEditInstitucion(id);
+                      handleEditInstitucion(institucion);
                     }}
                   />
                   <ButtonDelete onClick={() => {}} />

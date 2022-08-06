@@ -8,6 +8,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Sidebar from './parts/SideBar';
 import Navbar from './parts/NavBar';
 import InstitucionesList from './pages/Instituciones/InstitucionesList';
+import EmpleadosList from './pages/Empleados/EmpleadosList';
+import EmpresasList from './pages/Empresas/EmpresasList';
 
 const theme = createTheme({
   typography: {
@@ -42,11 +44,15 @@ function App() {
             <Routes>
               <Route
                 exact
-                path="gestion/institucion"
+                path="gestion/instituciones"
                 element={<InstitucionesList />}
               />
-              <Route path="gestion/empleado" />
-              <Route path="gestion/empresa" />
+              <Route
+                exact
+                path="gestion/empleados"
+                element={<EmpleadosList />}
+              />
+              <Route exact path="gestion/empresas" element={<EmpresasList />} />
               <Route path="gestion/contrato" />
               <Route path="servicio/contrato-obras-civiles" />
               <Route path="servicio/contrato-pae" />

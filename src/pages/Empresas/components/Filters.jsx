@@ -4,7 +4,7 @@ import { useModal } from '@ebay/nice-modal-react';
 import ButtonCommon from '../../../components/ButtonCommon';
 import SelectCommon from '../../../components/SelectCommon';
 import TextFieldCommon from '../../../components/TextFieldCommon';
-import InstitucionesCreateModal from '../InstitucionesCreateModal';
+import EmpresasCreateOrUpdateModal from '../EmpresasCreateOrUpdateModal';
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -12,7 +12,7 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ];
 function Filters() {
-  const modal = useModal(InstitucionesCreateModal);
+  const modal = useModal(EmpresasCreateOrUpdateModal);
   // const [departamento, setDepartamento] = React.useState('');
   // const handleChange = (event) => {
   // setDepartamento(event.target.value);

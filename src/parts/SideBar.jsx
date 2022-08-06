@@ -40,22 +40,22 @@ function Sidebar() {
       >
         <SidebarDropdown icon={<BusinessOutlinedIcon />} title="Gestión">
           <SidebarLink
-            link="gestion/institucion"
+            link="gestion/instituciones"
             icon={<HistoryEduOutlinedIcon />}
             title="Instituciones"
           />
           <SidebarLink
-            link="gestion/empleado"
+            link="gestion/empleados"
             icon={<GroupsOutlinedIcon />}
             title="Empleados"
           />
           <SidebarLink
-            link="gestion/empresa"
+            link="gestion/empresas"
             icon={<AddBusinessOutlinedIcon />}
             title="Empresas"
           />
           <SidebarLink
-            link="gestion/contrato"
+            link="gestion/contratos"
             icon={<CollectionsBookmarkOutlinedIcon />}
             title="Contratos"
           />

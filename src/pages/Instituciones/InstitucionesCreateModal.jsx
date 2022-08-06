@@ -25,40 +25,68 @@ import MunicipiosServices from '../../services/MunicipiosServices';
 import InstitucionesServices from '../../services/InstitucionesServices';
 import Loading from '../../components/Loading';
 
-function InstitucionesCreateModal() {
+function InstitucionesCreateModal({ institucion }) {
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState(null);
+  const [data, setData] = useState(null);
 
-  const handleSubmit = useCallback(async (values) => {
-    const newInstitucion = { ...values };
-    const Institucion = {
-      identificacion: newInstitucion.nit,
-      telefono: newInstitucion.telefono,
-      nombre: newInstitucion.nombres,
-      email: newInstitucion.email,
-      inicio_convenio: newInstitucion.fechaConvenio,
-      tipo: newInstitucion.tipo.value,
-      term_id: newInstitucion.municipio.value
-    };
-
-    try {
-      const response = await InstitucionesServices.post(Institucion);
-
-      if (response.status === 201) {
-        setInfo({
-          type: 'success',
-          message: response.message
-        });
-      }
-    } catch (error) {
-      setInfo({
-        type: 'error',
-        message: 'se ha producido un error, por favor intentelo más tarde.'
+  useEffect(() => {
+    if (institucion !== undefined) {
+      setData({
+        ...institucion,
+        nit: institucion.identificacion,
+        nombres: institucion.nombre,
+        fechaConvenio: institucion.inicio_convenio,
+        municipio: { label: institucion.term.name, value: institucion.term.id },
+        departamento: {
+          label: institucion.term.parent.name,
+          value: institucion.term.parent.id
+        },
+        tipo: { label: institucion.tipo, value: institucion.tipo }
       });
     }
-  }, []);
+  }, [institucion]);
+
+  const handleSubmit = useCallback(
+    async (values) => {
+      const newInstitucion = { ...values };
+      const Institucion = {
+        identificacion: newInstitucion.nit,
+        telefono: newInstitucion.telefono,
+        nombre: newInstitucion.nombres,
+        email: newInstitucion.email,
+        inicio_convenio: newInstitucion.fechaConvenio,
+        tipo: newInstitucion.tipo.value,
+        term_id: newInstitucion.municipio.value
+      };
+      try {
+        let response = null;
+
+        if (institucion) {
+          response = await InstitucionesServices.update({
+            id: institucion.id,
+            ...Institucion
+          });
+        } else {
+          response = await InstitucionesServices.post(Institucion);
+        }
+        if (response.status === 200) {
+          setInfo({
+            type: 'success',
+            message: response.message
+          });
+        }
+      } catch (error) {
+        setInfo({
+          type: 'error',
+          message: 'se ha producido un error, por favor intentelo más tarde.'
+        });
+      }
+    },
+    [institucion]
+  );
 
   async function fechDataDepartamentos() {
     try {
@@ -165,16 +193,18 @@ function InstitucionesCreateModal() {
         <Formik
           validationSchema={validationInstitucion}
           enableReinitialize
-          initialValues={{
-            nit: '',
-            telefono: '',
-            fechaConvenio: '',
-            nombres: '',
-            tipo: '',
-            email: '',
-            departamento: '',
-            municipio: ''
-          }}
+          initialValues={
+            data || {
+              nit: '',
+              telefono: '',
+              fechaConvenio: '',
+              nombres: '',
+              tipo: '',
+              email: '',
+              departamento: '',
+              municipio: ''
+            }
+          }
           onSubmit={(values, { resetForm }) => {
             handleSubmit(values);
             resetForm();
