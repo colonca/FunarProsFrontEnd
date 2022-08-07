@@ -20,7 +20,7 @@ function Filters() {
   return (
     <Grid container direction="row" spacing={2} marginTop={1} marginBottom={2}>
       <Grid item lg={4}>
-        <TextFieldCommon label="Nombre" />
+        <TextFieldCommon label="Numero de identificación" />
       </Grid>
       <Grid item lg={4}>
         <TextFieldCommon label="Nombre" />
