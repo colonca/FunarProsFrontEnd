@@ -10,6 +10,7 @@ import Navbar from './parts/NavBar';
 import InstitucionesList from './pages/Instituciones/InstitucionesList';
 import EmpleadosList from './pages/Empleados/EmpleadosList';
 import EmpresasList from './pages/Empresas/EmpresasList';
+import EmpleadosCreateOrUpdate from './pages/Empleados/EmpleadosCreateOrUpdate';
 
 const theme = createTheme({
   typography: {
@@ -52,7 +53,17 @@ function App() {
                 path="gestion/empleados"
                 element={<EmpleadosList />}
               />
+              <Route
+                exact
+                path="/gestion/empleados/crear"
+                element={<EmpleadosCreateOrUpdate />}
+              />
               <Route exact path="gestion/empresas" element={<EmpresasList />} />
+              <Route
+                exact
+                path="/gestion/empresas/crear"
+                element={<EmpleadosCreateOrUpdate />}
+              />
               <Route path="gestion/contrato" />
               <Route path="servicio/contrato-obras-civiles" />
               <Route path="servicio/contrato-pae" />

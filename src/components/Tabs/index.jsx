@@ -1,24 +1,28 @@
 import { Box, Breadcrumbs, Link } from '@mui/material';
-import React, { useId } from 'react';
-import CropSquareIcon from '@mui/icons-material/CropSquare';
+import React from 'react';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-function Tabs({ items }) {
-  const id = useId();
+function Tabs({ items, step }) {
   return (
-    <Box sx={{ padding: '0px 0px 10px 34px ' }}>
+    <Box sx={{ padding: '20px 0px 10px 0px  ' }}>
       <Breadcrumbs separator="">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <Link
             sx={{
               display: 'flex',
               alignItems: 'center',
-              color: '#3366CC',
+              color: step >= index ? '#3366CC' : 'gray',
               textDecoration: 'none'
             }}
-            key={id}
             to={item.url}
           >
-            <CropSquareIcon sx={{ mr: 0.5 }} fontSize="large" />
+            {index < step ? (
+              <CheckCircleIcon sx={{ mr: 0.5 }} fontSize="large" />
+            ) : (
+              <RadioButtonUncheckedIcon sx={{ mr: 0.5 }} fontSize="large" />
+            )}
+
             {item.title}
           </Link>
         ))}

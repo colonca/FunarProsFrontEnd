@@ -1,10 +1,8 @@
 import { Grid, Stack } from '@mui/material';
 import React from 'react';
-import { useModal } from '@ebay/nice-modal-react';
+import { useNavigate } from 'react-router-dom';
 import ButtonCommon from '../../../components/ButtonCommon';
-import SelectCommon from '../../../components/SelectCommon';
 import TextFieldCommon from '../../../components/TextFieldCommon';
-import EmpleadosCreateOrUpdateModal from '../EmpleadosCreateOrUpdateModal';
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -12,7 +10,8 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ];
 function Filters() {
-  const modal = useModal(EmpleadosCreateOrUpdateModal);
+  const navigate = useNavigate();
+
   // const [departamento, setDepartamento] = React.useState('');
   // const handleChange = (event) => {
   // setDepartamento(event.target.value);
@@ -33,7 +32,7 @@ function Filters() {
           <ButtonCommon
             sx={{ marginTop: '20px' }}
             onClick={() => {
-              modal.show();
+              navigate('/gestion/empleados/crear');
             }}
           >
             AGREGAR
