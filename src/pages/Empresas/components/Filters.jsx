@@ -12,11 +12,6 @@ const options = [
 ];
 function Filters() {
   const validate = useNavigate();
-
-  // const [departamento, setDepartamento] = React.useState('');
-  // const handleChange = (event) => {
-  // setDepartamento(event.target.value);
-  // };
   return (
     <Grid container direction="row" spacing={2} marginTop={1} marginBottom={2}>
       <Grid item lg={3}>

@@ -11,6 +11,7 @@ import InstitucionesList from './pages/Instituciones/InstitucionesList';
 import EmpleadosList from './pages/Empleados/EmpleadosList';
 import EmpresasList from './pages/Empresas/EmpresasList';
 import EmpleadosCreateOrUpdate from './pages/Empleados/EmpleadosCreateOrUpdate';
+import EmpresasCreateOrUpdate from './pages/Empresas/EmpresasCreateOrUpdate';
 
 const theme = createTheme({
   typography: {
@@ -62,7 +63,7 @@ function App() {
               <Route
                 exact
                 path="/gestion/empresas/crear"
-                element={<EmpleadosCreateOrUpdate />}
+                element={<EmpresasCreateOrUpdate />}
               />
               <Route path="gestion/contrato" />
               <Route path="servicio/contrato-obras-civiles" />

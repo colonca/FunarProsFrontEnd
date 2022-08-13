@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { jsonToFormData } from '../utils/services';
 
 const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 
@@ -8,7 +9,13 @@ EmpleadosServices.get = async () => {
   return data;
 };
 EmpleadosServices.post = async (request) => {
-  const { data } = await axios.post(`${baseUrl}/empleados`, request);
+  const formData = jsonToFormData(request);
+  const { data } = await axios.post(`${baseUrl}/empleados`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      type: 'formData'
+    }
+  });
   return data;
 };
 EmpleadosServices.update = async (request) => {

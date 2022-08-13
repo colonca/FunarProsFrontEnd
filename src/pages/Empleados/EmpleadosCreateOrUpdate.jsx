@@ -1,36 +1,44 @@
-import {
-  Box,
-  Grid,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  Typography
-} from '@mui/material';
-import { Formik } from 'formik';
-import React, { useMemo, useState } from 'react';
-import NiceModal, { useModal } from '@ebay/nice-modal-react';
+/* eslint-disable camelcase */
+import { Stack } from '@mui/material';
+import React, { useMemo, useState, useEffect } from 'react';
 import BreadCrumbs from '../../components/BreadCrumbs';
-import ButtonCommon from '../../components/ButtonCommon';
-import DatePickerCommon from '../../components/Datepicker';
-import SelectCommon from '../../components/SelectCommon';
-import Cell from '../../components/Table/Cell';
-import Row from '../../components/Table/Row';
-import Tabs from '../../components/Tabs';
-import TextFieldCommon from '../../components/TextFieldCommon';
-import ButtonDelete from '../../components/ButtonsAction/ActionDelete';
-import ButtonEdit from '../../components/ButtonsAction/ActionEdit';
-import ButtonView from '../../components/ButtonsAction/ActionView';
-import FileUploadModal from '../../components/FileUploadModal';
 
-function EmpleadosCreateOrUpdate() {
-  const modal = useModal(FileUploadModal);
+import Tabs from '../../components/Tabs';
+import 'react-dropzone-uploader/dist/styles.css';
+import FormDataIndentification from './components/FormDataIndentification';
+import FormDataDocuments from './components/FormDataDocuments';
+
+function EmpleadosCreateOrUpdate({ empleado }) {
+  const [data, setData] = useState(null);
   const [step, setStep] = useState(0);
-  const controlStep = () => {
-    setStep((steps) => steps + 1);
-  };
+
+  useEffect(() => {
+    if (empleado !== undefined) {
+      setData({
+        ...empleado,
+        tipo_identificacion_id: {
+          label: empleado.documento.name,
+          value: empleado.documento.id
+        },
+        identificacion: empleado.identificacion,
+        fecha_expedicion_documento: empleado.fecha_expedicion_documento,
+        nombres: empleado.nombres,
+        apellidos: empleado.apellidos,
+        numero_telefono: empleado.numero_telefono,
+        genero_id: { label: empleado.genero.name, value: empleado.genero.id },
+        email: empleado.email,
+        fecha_nacimiento: empleado.fecha_nacimiento,
+        ocupacion: empleado.ocupacion,
+        nivel_escolaridad_id: {
+          label: empleado.escolaridad.name,
+          value: empleado.escolaridad.id
+        },
+        direccion: empleado.direcion,
+        soporte_documento: empleado.soporte_documento
+      });
+    }
+  }, [empleado]);
+
   const breadCrumbs = useMemo(
     () => [
       { title: 'Gestión', url: '/' },
@@ -40,157 +48,34 @@ function EmpleadosCreateOrUpdate() {
   );
   const tabs = useMemo(
     () => [
-      { title: 'Información de la empresa' },
-      { title: 'Cargue de documentos de la empresa' }
+      { title: 'Información del empleado' },
+      { title: 'Cargue de documentos del empleado' }
     ],
     []
   );
+
   return (
     <Stack sx={{ margin: '0px 60px' }}>
       <BreadCrumbs items={breadCrumbs} />
-
-      <Formik
-        validationSchema
-        enableReinitialize
-        initialValues
-        onSubmit={() => {}}
-      >
-        {(formik) => (
-          <form onSubmit={formik.handleSubmit}>
-            <Tabs items={tabs} step={step} />
-            {step === 0 && (
-              <section>
-                <Typography
-                  sx={{
-                    padding: '10px 0px 10px 0px  ',
-                    fontSize: '18px',
-                    color: '#6D66CC'
-                  }}
-                >
-                  Datos de identificación
-                </Typography>
-                <Box>
-                  <Grid container direction="row" spacing={2} marginBottom={2}>
-                    <Grid item lg={4}>
-                      <SelectCommon required label="Tipo de documentación" />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <TextFieldCommon
-                        required
-                        label="Número de identificación"
-                      />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <DatePickerCommon required label="Fecha de Expedición" />
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Box>
-                  <Grid container direction="row" spacing={2} marginBottom={2}>
-                    <Grid item lg={4}>
-                      <TextFieldCommon required label="Nombres" />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <TextFieldCommon required label="Apellidos" />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <TextFieldCommon required label="Número de telefono" />
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Box>
-                  <Grid container direction="row" spacing={2} marginBottom={2}>
-                    <Grid item lg={4}>
-                      <SelectCommon required label="Genero" />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <TextFieldCommon required label="Correo electronico" />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <DatePickerCommon required label="Fecha de Nacimiento" />
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Typography
-                  sx={{
-                    padding: '10px 0px 10px 0px  ',
-                    fontSize: '18px',
-                    color: '#6D66CC'
-                  }}
-                >
-                  Datos de ubicación
-                </Typography>
-                <Box>
-                  <Grid container direction="row" spacing={2} marginBottom={2}>
-                    <Grid item lg={4}>
-                      <TextFieldCommon required label="Ocupación" />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <SelectCommon required label="Nivel de escolaridad" />
-                    </Grid>
-                    <Grid item lg={4}>
-                      <TextFieldCommon
-                        required
-                        label="Dirección de residencia"
-                      />
-                    </Grid>
-                  </Grid>
-                </Box>
-              </section>
-            )}
-            {step === 1 && (
-              <section>
-                <Stack
-                  direction="row"
-                  sx={{ margin: '10px', justifyContent: 'flex-end' }}
-                >
-                  <ButtonCommon
-                    onClick={() => {
-                      modal.show();
-                    }}
-                  >
-                    AGREGAR
-                  </ButtonCommon>
-                </Stack>
-                <Stack>
-                  <TableContainer component={Paper}>
-                    <Table>
-                      <TableHead>
-                        <Row>
-                          <Cell>Nombres</Cell>
-                          <Cell>Acciones</Cell>
-                        </Row>
-                      </TableHead>
-                      <TableBody>
-                        <Row>
-                          <Cell />
-                          <Cell>
-                            <ButtonView onClick={() => {}} />
-                            <ButtonEdit onClick={() => {}} />
-                            <ButtonDelete onClick={() => {}} />
-                          </Cell>
-                        </Row>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Stack>
-              </section>
-            )}
-            <Stack
-              spacing={2}
-              direction="row"
-              sx={{ margin: '20px', justifyContent: 'center' }}
-            >
-              <ButtonCommon type="button" variant="outlined" onClick={() => {}}>
-                CANCELAR
-              </ButtonCommon>
-              <ButtonCommon onClick={controlStep} type="submit">
-                CONTINUAR
-              </ButtonCommon>
-            </Stack>
-          </form>
-        )}
-      </Formik>
+      <Tabs items={tabs} step={step} />
+      {step === 0 && (
+        <FormDataIndentification
+          data={data}
+          setData={setData}
+          next={() => {
+            setStep(1);
+          }}
+        />
+      )}
+      {step === 1 && (
+        <FormDataDocuments
+          data={data}
+          setData={setData}
+          back={() => {
+            setStep(0);
+          }}
+        />
+      )}
     </Stack>
   );
 }
