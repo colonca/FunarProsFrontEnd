@@ -46,7 +46,6 @@ function EmpresasList() {
     <Stack sx={{ margin: '0px 60px' }}>
       <BreadCrumbs items={breadCrumbs} />
       <Filters />
-      {console.log(empresas)}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -71,7 +70,7 @@ function EmpresasList() {
                 <Cell>{empresa.tipos.name}</Cell>
                 <Cell>{empresa.email}</Cell>
                 <Cell>{empresa.fecha_convenio}</Cell>
-                <Cell>{empresa.municipio_id}</Cell>
+                <Cell>{empresa.term.parent.name}</Cell>
                 <Cell>
                   <ButtonView onClick={() => {}} />
                   <ButtonEdit onClick={() => {}} />

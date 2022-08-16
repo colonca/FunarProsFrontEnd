@@ -6,7 +6,8 @@ import {
   TableContainer,
   TableHead
 } from '@mui/material';
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Cell from '../../components/Table/Cell';
 import Row from '../../components/Table/Row';
@@ -15,16 +16,11 @@ import ButtonEdit from '../../components/ButtonsAction/ActionEdit';
 import ButtonView from '../../components/ButtonsAction/ActionView';
 import Filters from './components/Filters';
 import EmpleadosServices from '../../services/EmpleadosServices';
-import EmpleadosCreateOrUpdate from './EmpleadosCreateOrUpdate';
 
 function EmpleadosList() {
+  const navigate = useNavigate();
   const [empleados, setEmpleados] = useState([]);
   const [info, setInfo] = useState(null);
-
-  const handleEditEmpleado = useCallback((empleado) => {
-    console.log(empleado);
-    <EmpleadosCreateOrUpdate empleado={empleado} />;
-  }, []);
 
   async function fechDataEmpleados() {
     try {
@@ -63,7 +59,6 @@ function EmpleadosList() {
               <Cell>Telefono</Cell>
               <Cell>Genero</Cell>
               <Cell>Ocupación</Cell>
-              <Cell>Correo</Cell>
               <Cell>Acciones</Cell>
             </Row>
           </TableHead>
@@ -73,19 +68,17 @@ function EmpleadosList() {
                 key={empleado.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <Cell>{empleado.documento.name}</Cell>
+                <Cell>{empleado.documento.initials}</Cell>
                 <Cell>{`${empleado.nombres} ${empleado.apellidos}`}</Cell>
 
                 <Cell>{empleado.numero_telefono}</Cell>
                 <Cell>{empleado.genero.name}</Cell>
                 <Cell>{empleado.ocupacion}</Cell>
-                <Cell>{empleado.email}</Cell>
                 <Cell>
                   <ButtonView onClick={() => {}} />
                   <ButtonEdit
                     onClick={() => {
-                      console.log(empleado);
-                      handleEditEmpleado(empleado);
+                      navigate(`/gestion/empleados/editar/${empleado.id}`);
                     }}
                   />
                   <ButtonDelete onClick={() => {}} />

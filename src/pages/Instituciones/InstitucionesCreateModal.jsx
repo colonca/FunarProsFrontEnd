@@ -124,7 +124,6 @@ function InstitucionesCreateModal({ institucion }) {
       setLoading(null);
     }
   }
-
   useEffect(() => {
     fechDataDepartamentos();
   }, []);

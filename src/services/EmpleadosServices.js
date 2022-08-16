@@ -8,6 +8,10 @@ EmpleadosServices.get = async () => {
   const { data } = await axios.get(`${baseUrl}/empleados`);
   return data;
 };
+EmpleadosServices.getId = async (id) => {
+  const { data } = await axios.get(`${baseUrl}/empleados/show/${id}`);
+  return data;
+};
 EmpleadosServices.post = async (request) => {
   const formData = jsonToFormData(request);
   const { data } = await axios.post(`${baseUrl}/empleados`, formData, {
@@ -19,9 +23,18 @@ EmpleadosServices.post = async (request) => {
   return data;
 };
 EmpleadosServices.update = async (request) => {
-  const { data } = await axios.put(
-    `${baseUrl}/empleados/update/${request.id}`,
-    request
+  const formData = jsonToFormData(request);
+  console.log('update');
+  console.log(request.id);
+  const { data } = await axios.post(
+    `${baseUrl}/empleados/update/${request.id}?_method=put`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        type: 'formData'
+      }
+    }
   );
   return data;
 };

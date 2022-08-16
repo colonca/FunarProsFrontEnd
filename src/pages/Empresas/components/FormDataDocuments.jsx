@@ -31,7 +31,6 @@ function FormDataDocuments({ data, back, setData }) {
       }
       onSubmit={(values) => {
         const request = { ...data, ...values };
-        console.log(request);
       }}
     >
       {(formik) => (

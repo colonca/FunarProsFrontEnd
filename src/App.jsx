@@ -59,6 +59,11 @@ function App() {
                 path="/gestion/empleados/crear"
                 element={<EmpleadosCreateOrUpdate />}
               />
+              <Route
+                exact
+                path="/gestion/empleados/editar/:id"
+                element={<EmpleadosCreateOrUpdate />}
+              />
               <Route exact path="gestion/empresas" element={<EmpresasList />} />
               <Route
                 exact
