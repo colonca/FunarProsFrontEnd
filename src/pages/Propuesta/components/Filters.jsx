@@ -1,9 +1,10 @@
+import { useModal } from '@ebay/nice-modal-react';
 import { Grid, Stack } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import ButtonCommon from '../../../components/ButtonCommon';
 import SelectCommon from '../../../components/SelectCommon';
 import TextFieldCommon from '../../../components/TextFieldCommon';
+import PropuestasModalCreateOrUpdate from '../PropuestasModalCreateOrUpdate';
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -11,7 +12,7 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ];
 function Filters() {
-  const validate = useNavigate();
+  const modal = useModal(PropuestasModalCreateOrUpdate);
   return (
     <Grid container direction="row" spacing={2} marginTop={1} marginBottom={2}>
       <Grid item lg={3}>
@@ -31,7 +32,7 @@ function Filters() {
           <ButtonCommon
             sx={{ marginTop: '20px' }}
             onClick={() => {
-              validate('/gestion/propuestas/crear');
+              modal.show();
             }}
           >
             AGREGAR

@@ -7,6 +7,7 @@ import {
   TableHead
 } from '@mui/material';
 import React, { useMemo } from 'react';
+import { useModal } from '@ebay/nice-modal-react';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Cell from '../../components/Table/Cell';
 import Row from '../../components/Table/Row';
@@ -14,8 +15,10 @@ import ButtonDelete from '../../components/ButtonsAction/ActionDelete';
 import ButtonEdit from '../../components/ButtonsAction/ActionEdit';
 import ButtonView from '../../components/ButtonsAction/ActionView';
 import Filters from './components/Filters';
+import PropuestasModalCreateOrUpdate from './PropuestasModalCreateOrUpdate';
 
 function PropuestaSList() {
+  const institucionModal = useModal(PropuestasModalCreateOrUpdate);
   const breadCrumbs = useMemo(
     () => [
       { title: 'Gestión', url: '/' },
@@ -51,7 +54,9 @@ function PropuestaSList() {
                 <Cell>{}</Cell>
                 <Cell>
                   <ButtonView onClick={() => {}} />
-                  <ButtonEdit onClick={() => {}} />
+                  <ButtonEdit onClick={() => {
+
+                  }} />
                   <ButtonDelete onClick={() => {}} />
                 </Cell>
               </Row>

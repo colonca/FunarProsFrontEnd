@@ -12,6 +12,7 @@ import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import MiscellaneousServicesOutlinedIcon from '@mui/icons-material/MiscellaneousServicesOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
+import CurtainsClosedIcon from '@mui/icons-material/CurtainsClosed';
 import Logo from '../assets/images/logo-blanco.png';
 
 // componentss
@@ -78,10 +79,16 @@ function Sidebar() {
         <SidebarDropdown icon={<AssessmentOutlinedIcon />} title="Reportes">
           <SidebarLink
             icon={<SchemaOutlinedIcon />}
-            link="reporte/pae"
+            link="reporte/contratos"
             title="Contratos"
           />
         </SidebarDropdown>
+
+        <SidebarLink
+          icon={<CurtainsClosedIcon sx={{ color: 'white' }} />}
+          link="reporte/contratos"
+          title="Cerrar Sesion"
+        />
       </Stack>
     </Stack>
   );
