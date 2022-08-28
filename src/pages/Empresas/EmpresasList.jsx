@@ -7,6 +7,7 @@ import {
   TableHead
 } from '@mui/material';
 import React, { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Cell from '../../components/Table/Cell';
 import Row from '../../components/Table/Row';
@@ -18,6 +19,7 @@ import EmpresasServices from '../../services/EmpresasServices';
 
 function EmpresasList() {
   const [empresas, setEmpresas] = useState([]);
+  const navigate = useNavigate();
   const [info, setInfo] = useState(null);
   async function fechDataEmpresas() {
     try {
@@ -73,7 +75,11 @@ function EmpresasList() {
                 <Cell>{empresa.term.parent.name}</Cell>
                 <Cell>
                   <ButtonView onClick={() => {}} />
-                  <ButtonEdit onClick={() => {}} />
+                  <ButtonEdit
+                    onClick={() => {
+                      navigate(`/gestion/empresas/editar/${empresa.id}`);
+                    }}
+                  />
                   <ButtonDelete onClick={() => {}} />
                 </Cell>
               </Row>

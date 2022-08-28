@@ -1,8 +1,8 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, FormLabel, Stack, Typography } from '@mui/material';
 import React, { useRef } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-function Dropzone({ onFileUpload, accept, file }) {
+function Dropzone({ onFileUpload, accept, file, error }) {
   const inputref = useRef(null);
 
   return (
@@ -30,7 +30,7 @@ function Dropzone({ onFileUpload, accept, file }) {
           <CloudUploadIcon
             sx={{ color: 'blueviolet', width: '90px', height: '90px' }}
           />
-          <Typography>Arrasta y suelta el archivo aqui !!!</Typography>
+          <Typography>Click aqui para carga el archivo .pdf !!!</Typography>
           <input
             ref={inputref}
             type="file"
@@ -43,6 +43,11 @@ function Dropzone({ onFileUpload, accept, file }) {
             }}
           />
         </Stack>
+        {error && (
+          <FormLabel sx={{ color: '#A80521', marginTop: '2px' }}>
+            {error}
+          </FormLabel>
+        )}
         {file && (
           <Stack direction="row" alignItems="center" width="100%" spacing={2}>
             <CloudUploadIcon />

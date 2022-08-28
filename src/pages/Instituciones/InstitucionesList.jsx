@@ -118,8 +118,8 @@ function InstitucionesList() {
                 <Cell>{institucion.tipo}</Cell>
                 <Cell>{institucion.inicio_convenio}</Cell>
                 <Cell>{institucion.telefono}</Cell>
-                <Cell>{institucion.term_id}</Cell>
-                <Cell>{institucion.tipo}</Cell>
+                <Cell>{institucion.term.name}</Cell>
+                <Cell>{institucion.email}</Cell>
                 <Cell>
                   <ButtonView onClick={() => {}} />
                   <ButtonEdit

@@ -24,8 +24,6 @@ EmpleadosServices.post = async (request) => {
 };
 EmpleadosServices.update = async (request) => {
   const formData = jsonToFormData(request);
-  console.log('update');
-  console.log(request.id);
   const { data } = await axios.post(
     `${baseUrl}/empleados/update/${request.id}?_method=put`,
     formData,

@@ -33,7 +33,7 @@ function ModalUpdate({ type, message }) {
       >
         {message}
       </Alert>
-      <Stack>
+      <Stack sx={{ padding: '20px' }}>
         <ButtonCommon
           onClick={() => {
             modal.resolve();

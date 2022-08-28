@@ -90,10 +90,11 @@ function FormDataIdentification({ data, next, setData }) {
           municipio_id: '',
           tipo_id: '',
           email: '',
-          numero_telefono: '',
+          telefono: '',
           nombre: '',
           nit: '',
-          fecha_convenio: ''
+          fecha_convenio: '',
+          files: []
         }
       }
       onSubmit={(values) => {
@@ -204,12 +205,9 @@ function FormDataIdentification({ data, next, setData }) {
               </Grid>
               <Grid item lg={4}>
                 <TextFieldCommon
-                  error={
-                    formik.touched.numero_telefono &&
-                    formik.errors.numero_telefono
-                  }
-                  name="numero_telefono"
-                  value={formik.values.numero_telefono}
+                  error={formik.touched.telefono && formik.errors.telefono}
+                  name="telefono"
+                  value={formik.values.telefono}
                   onChange={formik.handleChange}
                   required
                   label="Número de telefono"

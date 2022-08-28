@@ -12,6 +12,8 @@ import EmpleadosList from './pages/Empleados/EmpleadosList';
 import EmpresasList from './pages/Empresas/EmpresasList';
 import EmpleadosCreateOrUpdate from './pages/Empleados/EmpleadosCreateOrUpdate';
 import EmpresasCreateOrUpdate from './pages/Empresas/EmpresasCreateOrUpdate';
+import PropuestasList from './pages/Propuesta/PropuestasList';
+import PropuestasCreateOrUpdate from './pages/Propuesta/PropuestasCreateOrUpdate';
 
 const theme = createTheme({
   typography: {
@@ -70,7 +72,21 @@ function App() {
                 path="/gestion/empresas/crear"
                 element={<EmpresasCreateOrUpdate />}
               />
-              <Route path="gestion/contrato" />
+              <Route
+                exact
+                path="/gestion/empresas/editar/:id"
+                element={<EmpresasCreateOrUpdate />}
+              />
+              <Route
+                exact
+                path="gestion/propuestas"
+                element={<PropuestasList />}
+              />
+              <Route
+                exact
+                path="/gestion/propuestas/crear"
+                element={<PropuestasCreateOrUpdate />}
+              />
               <Route path="servicio/contrato-obras-civiles" />
               <Route path="servicio/contrato-pae" />
               <Route path="reporte/pae" />

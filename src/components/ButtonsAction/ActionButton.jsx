@@ -8,6 +8,10 @@ const Button = styled('button')(() => ({
   cursor: 'pointer'
 }));
 function ActionButton({ children, onClick }) {
-  return <Button onClick={onClick}>{children}</Button>;
+  return (
+    <Button type="button" onClick={onClick}>
+      {children}
+    </Button>
+  );
 }
 export default ActionButton;

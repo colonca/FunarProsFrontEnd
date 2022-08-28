@@ -9,13 +9,16 @@ import {
   Grid,
   Stack
 } from '@mui/material';
+import { Formik } from 'formik';
 import ActionCerrar from '../ButtonsAction/ActionCerrar';
 import SelectCommon from '../SelectCommon';
 import ButtonCommon from '../ButtonCommon';
 import Dropzone from '../Dropzone';
+import validationDataDocumentsEmpresa from '../../pages/Empresas/ValidationSchemeDataDocuments';
 
-function FileUploadmodal() {
+function FileUploadmodal({ documents }) {
   const modal = useModal();
+
   return (
     <Dialog
       fullScreen={false}
@@ -44,36 +47,62 @@ function FileUploadmodal() {
         Agregar Documentos
       </DialogTitle>
       <DialogContent>
-        <Box sx={{ padding: '10px 40px 0px 40px ' }}>
-          <Grid container direction="row" spacing={2} marginBottom={2}>
-            <Grid item lg={12}>
-              <SelectCommon required label="Listado de documentos" />
-            </Grid>
-          </Grid>
-        </Box>
-        <Box>
-          <Box sx={{ padding: '30px' }}>
-            <Dropzone />
-          </Box>
-        </Box>
-        <Stack
-          spacing={2}
-          direction="row"
-          sx={{ padding: '10px', justifyContent: 'center' }}
+        <Formik
+          validationSchema={validationDataDocumentsEmpresa}
+          initialValues={{ document: '', file: '' }}
+          onSubmit={(values) => {
+            modal.resolve(values);
+          }}
         >
-          <ButtonCommon
-            type="button"
-            variant="outlined"
-            onClick={() => {
-              modal.remove();
-            }}
-          >
-            CANCELAR
-          </ButtonCommon>
-          <ButtonCommon onClick={{}} type="submit">
-            CONTINUAR
-          </ButtonCommon>
-        </Stack>
+          {(formik) => (
+            <form onSubmit={formik.handleSubmit}>
+              <Box sx={{ padding: '10px 40px 0px 40px ' }}>
+                <Grid container direction="row" spacing={2} marginBottom={2}>
+                  <Grid item lg={12}>
+                    <SelectCommon
+                      options={documents}
+                      value={formik.values.document}
+                      error={formik.touched.document && formik.errors.document}
+                      onChange={(value) => {
+                        formik.setFieldValue('document', value);
+                      }}
+                      required
+                      label="Listado de documentos"
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box>
+                <Box sx={{ padding: '30px' }}>
+                  <Dropzone
+                    file={formik.values.file}
+                    accept=".pdf"
+                    error={formik.touched.file && formik.errors.file}
+                    onFileUpload={(file) => {
+                      formik.setFieldValue('file', file);
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Stack
+                spacing={2}
+                direction="row"
+                sx={{ padding: '10px', justifyContent: 'center' }}
+              >
+                <ButtonCommon
+                  type="button"
+                  variant="outlined"
+                  onClick={() => {
+                    modal.remove();
+                  }}
+                >
+                  CANCELAR
+                </ButtonCommon>
+                <ButtonCommon type="submit">CONTINUAR</ButtonCommon>
+              </Stack>
+            </form>
+          )}
+        </Formik>
       </DialogContent>
     </Dialog>
   );

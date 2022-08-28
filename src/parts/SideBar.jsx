@@ -55,9 +55,9 @@ function Sidebar() {
             title="Empresas"
           />
           <SidebarLink
-            link="gestion/contratos"
+            link="gestion/propuestas"
             icon={<CollectionsBookmarkOutlinedIcon />}
-            title="Contratos"
+            title="Propuesta contrato"
           />
         </SidebarDropdown>
         <SidebarDropdown
@@ -79,7 +79,7 @@ function Sidebar() {
           <SidebarLink
             icon={<SchemaOutlinedIcon />}
             link="reporte/pae"
-            title="PAE"
+            title="Contratos"
           />
         </SidebarDropdown>
       </Stack>

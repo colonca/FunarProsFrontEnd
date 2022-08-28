@@ -9,6 +9,7 @@ function Tabs({ items, step }) {
       <Breadcrumbs separator="">
         {items.map((item, index) => (
           <Link
+            key={item}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -22,7 +23,6 @@ function Tabs({ items, step }) {
             ) : (
               <RadioButtonUncheckedIcon sx={{ mr: 0.5 }} fontSize="large" />
             )}
-
             {item.title}
           </Link>
         ))}

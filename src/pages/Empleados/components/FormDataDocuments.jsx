@@ -12,6 +12,7 @@ import ModalUpdate from '../../../components/ModalUpdate';
 
 function FormDataDocuments({ data, back, setData }) {
   const updateModal = useModal(ModalUpdate);
+
   const navigate = useNavigate();
   const [info, setInfo] = useState();
 
@@ -55,10 +56,12 @@ function FormDataDocuments({ data, back, setData }) {
               navigate('/gestion/empleados');
             });
         }
-        setInfo({
-          type: 'success',
-          message: response.message
-        });
+        updateModal
+          .show({ type: 'success', message: response.message })
+          .then(() => {
+            updateModal.hide();
+            navigate('/gestion/empleados');
+          });
       }
     } catch (error) {
       setInfo({
@@ -66,6 +69,7 @@ function FormDataDocuments({ data, back, setData }) {
         message: 'se ha producido un error, por favor intentelo más tarde.'
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -86,7 +90,6 @@ function FormDataDocuments({ data, back, setData }) {
       >
         {(formik) => (
           <form onSubmit={formik.handleSubmit}>
-            {JSON.stringify(formik.errors)}
             <Box sx={{ padding: '30px' }}>
               <Dropzone
                 accept=".pdf"
