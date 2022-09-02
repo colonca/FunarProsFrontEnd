@@ -14,6 +14,10 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 function Navbar() {
+  const fecha = new Date();
+  const fechaActual = `${fecha.getDate()}/${
+    fecha.getMonth() + 1
+  }/${fecha.getFullYear()}`;
   return (
     <Stack
       direction="row"
@@ -32,22 +36,26 @@ function Navbar() {
           <ListItem
             style={{
               background: '#0ADDC4',
-              borderRadius: '10px'
+              borderRadius: '10px',
+              height: '40px',
+              margin: '10px'
             }}
           >
             <ListItemIcon>
               <ListItemAvatar>
-                <Avatar>
-                  <CalendarMonthOutlinedIcon />
+                <Avatar sx={{ height: '35px', width: '35px' }}>
+                  <CalendarMonthOutlinedIcon
+                    sx={{ height: '30px', color: 'white' }}
+                  />
                 </Avatar>
               </ListItemAvatar>
             </ListItemIcon>
-            <ListItemText primary="12/12/2022" />
+            <ListItemText sx={{ color: 'white' }}>{fechaActual}</ListItemText>
           </ListItem>
           <ListItem>
             <ListItemIcon>
               <ListItemAvatar>
-                <Avatar>
+                <Avatar sx={{ height: '35px', width: '35px' }}>
                   <NotificationsOutlinedIcon />
                 </Avatar>
               </ListItemAvatar>

@@ -18,4 +18,8 @@ InstitucionesServices.update = async (request) => {
   );
   return data;
 };
+InstitucionesServices.delete = async (id) => {
+  const { data } = await axios.delete(`${baseUrl}/institucion/delete/${id}`);
+  return data;
+};
 export default InstitucionesServices;

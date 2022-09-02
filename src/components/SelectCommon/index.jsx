@@ -17,7 +17,16 @@ const customStyles = {
   })
 };
 function SelectCommon(props) {
-  const { label, name, value, required, options, onChange, error = '' } = props;
+  const {
+    label,
+    name,
+    value,
+    required,
+    options,
+    onChange,
+    error = '',
+    isMulti
+  } = props;
   return (
     <FormControl sx={{ width: '100%' }}>
       <Stack direction="row" spacing={1}>
@@ -30,6 +39,7 @@ function SelectCommon(props) {
         options={options}
         onChange={onChange}
         styles={customStyles}
+        isMulti={isMulti}
       />
       {error && (
         <FormLabel sx={{ color: '#A80521', marginTop: '2px' }}>

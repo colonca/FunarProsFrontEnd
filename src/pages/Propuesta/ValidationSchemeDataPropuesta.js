@@ -16,7 +16,10 @@ const validationSchemeDataProuesta = Yup.object().shape({
   tipo: Yup.object().required('El tipo de contrato es requerido'),
   institucion_id: Yup.object().when('tipo', (tipo) => {
     if (tipo && tipo.value === 'PAE') {
-      return Yup.object().required('La institucion es requerida');
+      return Yup.array().min(
+        1,
+        'La institución es requerida, debe seleccionar al menos una'
+      );
     }
   })
 });

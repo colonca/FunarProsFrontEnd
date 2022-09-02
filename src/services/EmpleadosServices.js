@@ -36,4 +36,8 @@ EmpleadosServices.update = async (request) => {
   );
   return data;
 };
+EmpleadosServices.delete = async (id) => {
+  const { data } = await axios.delete(`${baseUrl}/empleados/delete/${id}`);
+  return data;
+};
 export default EmpleadosServices;

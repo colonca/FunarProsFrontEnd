@@ -5,7 +5,7 @@ import ActionButton from './ActionButton';
 function ActionDelete({ onClick }) {
   return (
     <ActionButton onClick={onClick}>
-      <DeleteOutlineOutlinedIcon />
+      <DeleteOutlineOutlinedIcon style={{ color: 'red' }} />
     </ActionButton>
   );
 }

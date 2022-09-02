@@ -26,7 +26,10 @@ function Filters() {
       </Grid>
       <Grid item lg={3}>
         <Stack direction="row">
-          <ButtonCommon sx={{ marginTop: '20px', marginRight: '5px' }}>
+          <ButtonCommon
+            variant="outlined"
+            sx={{ marginTop: '20px', marginRight: '5px' }}
+          >
             BUSCAR
           </ButtonCommon>
           <ButtonCommon

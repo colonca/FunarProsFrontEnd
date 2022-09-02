@@ -2,6 +2,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import {
+  Alert,
   Box,
   Dialog,
   DialogContent,
@@ -11,6 +12,8 @@ import {
   Typography
 } from '@mui/material';
 import { Formik } from 'formik';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import ActionCerrar from '../../components/ButtonsAction/ActionCerrar';
 import SelectCommon from '../../components/SelectCommon';
 import EstadosServices from '../../services/estadosServices';
@@ -20,12 +23,14 @@ import DatePickerCommon from '../../components/Datepicker';
 import EmpresasServices from '../../services/EmpresasServices';
 import InstitucionesServices from '../../services/InstitucionesServices';
 import validationSchemeDataProuesta from './ValidationSchemeDataPropuesta';
+import Loading from '../../components/Loading';
 
 function PropuestasModalCreateOrUpdate() {
   const [info, setInfo] = useState(null);
   const [estados, setEstados] = useState([]);
   const [empresas, setEmpresas] = useState([]);
   const [instituciones, setInstituciones] = useState([]);
+  const [loading, setLoading] = useState(null);
   const [data, setData] = useState(null);
   async function fechDataEstados() {
     try {
@@ -54,6 +59,7 @@ function PropuestasModalCreateOrUpdate() {
   const modal = useModal();
   async function fechDataEmpresa() {
     try {
+      setLoading(true);
       const response = await EmpresasServices.get();
       if (response.status === 200) {
         setEmpresas(
@@ -62,16 +68,20 @@ function PropuestasModalCreateOrUpdate() {
             value: item.id
           }))
         );
+        setLoading(false);
       }
     } catch (error) {
       setInfo({
         type: '',
         message: ''
       });
+    } finally {
+      setLoading(null);
     }
   }
   async function fechDataInstituciones() {
     try {
+      setLoading(true);
       const response = await InstitucionesServices.get();
       if (response.status === 200) {
         setInstituciones(
@@ -80,12 +90,15 @@ function PropuestasModalCreateOrUpdate() {
             value: item.id
           }))
         );
+        setLoading(false);
       }
     } catch (error) {
       setInfo({
-        type: '',
-        message: ''
+        type: 'error',
+        message: 'se ha producido un error, por favor intentelo más tarde.'
       });
+    } finally {
+      setLoading(null);
     }
   }
   useEffect(() => {
@@ -121,6 +134,32 @@ function PropuestasModalCreateOrUpdate() {
         Crear Propuesta
       </DialogTitle>
       <DialogContent>
+        {loading && <Loading />}
+        {!loading && (
+          <Box sx={{ padding: '10px 40px 0px 40px ' }}>
+            {info && (
+              <Alert
+                severity={info.type}
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setInfo(null);
+                      modal.hide();
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {info.message}
+              </Alert>
+            )}
+          </Box>
+        )}
         <Formik
           validationSchema={validationSchemeDataProuesta}
           enableReinitialize
@@ -225,7 +264,6 @@ function PropuestasModalCreateOrUpdate() {
                     />
                   </Grid>
                 </Grid>
-
                 <Grid container direction="row" spacing={2} marginBottom={2}>
                   <Grid item lg={4}>
                     <SelectCommon
@@ -272,19 +310,19 @@ function PropuestasModalCreateOrUpdate() {
                   <SelectCommon
                     options={instituciones}
                     required
+                    value={formik.values.institucion_id}
+                    isMulti
                     error={
                       formik.touched.institucion_id &&
                       formik.errors.institucion_id
                     }
-                    value={formik.values.institucion_id}
                     label="Institucion"
-                    onChange={(institucion) => {
-                      formik.setFieldValue('institucion_id', institucion);
+                    onChange={(item) => {
+                      formik.setFieldValue('institucion_id', item);
                     }}
                   />
                 </Box>
               )}
-
               <Stack
                 spacing={2}
                 direction="row"
