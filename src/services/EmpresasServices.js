@@ -9,7 +9,6 @@ EmpresasServices.get = async () => {
   return data;
 };
 EmpresasServices.post = async (request) => {
-  console.log(request);
   const formData = jsonToFormData(request);
   const { data } = await axios.post(`${baseUrl}/empresas`, formData, {
     headers: {

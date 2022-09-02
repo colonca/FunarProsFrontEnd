@@ -21,11 +21,14 @@ import DepartamentosServices from '../../services/DepartamentosServices';
 import InstitucionesServices from '../../services/InstitucionesServices';
 import Filters from './components/Filters';
 import InstitucionesCreateModal from './InstitucionesCreateModal';
+import ModalDelete from '../../components/ModalDelete';
 
 function InstitucionesList() {
   const institucionModal = useModal(InstitucionesCreateModal);
+  const modalDelete = useModal(ModalDelete);
   const [instituciones, setInstituciones] = useState([]);
   const [info, setInfo] = useState(null);
+  const [loading, setLoading] = useState(null);
   const [departamentos, setDepartamentos] = useState([]);
 
   const breadCrumbs = useMemo(
@@ -35,9 +38,43 @@ function InstitucionesList() {
     ],
     []
   );
-  const handleEditInstitucion = useCallback((institucion) => {
-    institucionModal.show({ institucion });
-  });
+  const handleEditInstitucion = useCallback(
+    (institucion) => {
+      institucionModal.show({ institucion });
+    },
+    [institucionModal]
+  );
+
+  const handleDeleteInstitucion = useCallback(
+    (id) => {
+      modalDelete.show().then(async () => {
+        try {
+          const response = await InstitucionesServices.delete(id);
+          if (response.status === 200) {
+            setInstituciones({});
+            setInfo({
+              type: 'success',
+              message: 'Institución eliminada correctamente'
+            });
+          } else {
+            setInfo({
+              type: 'warning',
+              message: response.message
+            });
+          }
+        } catch (error) {
+          setInfo({
+            type: 'error',
+            message: 'se ha producido un error, por favor intentalo más tarde.'
+          });
+        } finally {
+          setLoading(false);
+          modalDelete.remove();
+        }
+      });
+    },
+    [modalDelete]
+  );
   async function fechDataDepartamentos() {
     try {
       const response = await DepartamentosServices.get();
@@ -127,7 +164,11 @@ function InstitucionesList() {
                       handleEditInstitucion(institucion);
                     }}
                   />
-                  <ButtonDelete onClick={() => {}} />
+                  <ButtonDelete
+                    onClick={() => {
+                      handleDeleteInstitucion(institucion.id);
+                    }}
+                  />
                 </Cell>
               </Row>
             ))}

@@ -51,6 +51,10 @@ function PropuestasModalCreateOrUpdate() {
     ],
     []
   );
+  const user = useMemo(() => [
+    { label: 'Admi', value: 'admi' },
+    { label: 'Admi', value: 'admi' }
+  ]);
   const modal = useModal();
   async function fechDataEmpresa() {
     try {
@@ -225,7 +229,6 @@ function PropuestasModalCreateOrUpdate() {
                     />
                   </Grid>
                 </Grid>
-
                 <Grid container direction="row" spacing={2} marginBottom={2}>
                   <Grid item lg={4}>
                     <SelectCommon

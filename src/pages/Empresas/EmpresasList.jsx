@@ -6,8 +6,9 @@ import {
   TableContainer,
   TableHead
 } from '@mui/material';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useModal } from '@ebay/nice-modal-react';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Cell from '../../components/Table/Cell';
 import Row from '../../components/Table/Row';
@@ -16,9 +17,11 @@ import ButtonDelete from '../../components/ButtonsAction/ActionDelete';
 import ButtonEdit from '../../components/ButtonsAction/ActionEdit';
 import ButtonView from '../../components/ButtonsAction/ActionView';
 import EmpresasServices from '../../services/EmpresasServices';
+import ModalDelete from '../../components/ModalDelete';
 
 function EmpresasList() {
   const [empresas, setEmpresas] = useState([]);
+  const modalDelete = useModal(ModalDelete);
   const navigate = useNavigate();
   const [info, setInfo] = useState(null);
   async function fechDataEmpresas() {
@@ -41,6 +44,9 @@ function EmpresasList() {
     ],
     []
   );
+  const handleDeleteEmpresas = useCallback((id) => {
+    modalDelete.show();
+  });
   useEffect(() => {
     fechDataEmpresas();
   }, []);
@@ -54,7 +60,6 @@ function EmpresasList() {
             <Row>
               <Cell>Nit</Cell>
               <Cell>Nombre</Cell>
-              <Cell>Tipo</Cell>
               <Cell>Correo</Cell>
               <Cell>Fecha convenio</Cell>
               <Cell>Municipio</Cell>
@@ -69,7 +74,6 @@ function EmpresasList() {
               >
                 <Cell>{empresa.nit}</Cell>
                 <Cell>{empresa.nombre}</Cell>
-                <Cell>{empresa.tipos.name}</Cell>
                 <Cell>{empresa.email}</Cell>
                 <Cell>{empresa.fecha_convenio}</Cell>
                 <Cell>{empresa.term.parent.name}</Cell>
@@ -80,7 +84,11 @@ function EmpresasList() {
                       navigate(`/gestion/empresas/editar/${empresa.id}`);
                     }}
                   />
-                  <ButtonDelete onClick={() => {}} />
+                  <ButtonDelete
+                    onClick={() => {
+                      handleDeleteEmpresas(empresa.id);
+                    }}
+                  />
                 </Cell>
               </Row>
             ))}

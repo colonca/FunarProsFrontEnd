@@ -161,7 +161,7 @@ function InstitucionesCreateModal({ institucion }) {
         />
       </Stack>
       <DialogTitle sx={{ padding: '10px', margin: '0px 10px' }}>
-        Crear instituciones
+        {institucion ? 'Actualizar Institución' : ' Crear institución'}
       </DialogTitle>
       <DialogContent sx={{ padding: '10px' }}>
         {loading && <Loading />}
@@ -354,7 +354,9 @@ function InstitucionesCreateModal({ institucion }) {
                 >
                   CANCELAR
                 </ButtonCommon>
-                <ButtonCommon type="submit">GUARDAR</ButtonCommon>
+                <ButtonCommon type="submit">
+                  {institucion ? 'ACTUALIZAR' : 'GUARDAR'}
+                </ButtonCommon>
               </Stack>
             </form>
           )}

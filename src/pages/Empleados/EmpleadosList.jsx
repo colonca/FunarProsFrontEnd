@@ -6,8 +6,9 @@ import {
   TableContainer,
   TableHead
 } from '@mui/material';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useModal } from '@ebay/nice-modal-react';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Cell from '../../components/Table/Cell';
 import Row from '../../components/Table/Row';
@@ -16,9 +17,11 @@ import ButtonEdit from '../../components/ButtonsAction/ActionEdit';
 import ButtonView from '../../components/ButtonsAction/ActionView';
 import Filters from './components/Filters';
 import EmpleadosServices from '../../services/EmpleadosServices';
+import ModalDelete from '../../components/ModalDelete';
 
 function EmpleadosList() {
   const navigate = useNavigate();
+  const modalDelete = useModal(ModalDelete);
   const [empleados, setEmpleados] = useState([]);
   const [info, setInfo] = useState(null);
 
@@ -43,6 +46,9 @@ function EmpleadosList() {
     ],
     []
   );
+  const handleDeleteEmpleados = useCallback((id) => {
+    modalDelete.show();
+  });
   useEffect(() => {
     fechDataEmpleados();
   }, []);
@@ -81,7 +87,11 @@ function EmpleadosList() {
                       navigate(`/gestion/empleados/editar/${empleado.id}`);
                     }}
                   />
-                  <ButtonDelete onClick={() => {}} />
+                  <ButtonDelete
+                    onClick={() => {
+                      handleDeleteEmpleados(empleado.id);
+                    }}
+                  />
                 </Cell>
               </Row>
             ))}
