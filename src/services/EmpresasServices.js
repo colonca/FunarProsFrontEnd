@@ -4,8 +4,8 @@ import { jsonToFormData } from '../utils/services';
 const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 
 const EmpresasServices = {};
-EmpresasServices.get = async () => {
-  const { data } = await axios.get(`${baseUrl}/empresas`);
+EmpresasServices.get = async (page = 1) => {
+  const { data } = await axios.get(`${baseUrl}/empresas?page=${page}`);
   return data;
 };
 EmpresasServices.post = async (request) => {
