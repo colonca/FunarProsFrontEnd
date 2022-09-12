@@ -1,5 +1,6 @@
 import {
   Alert,
+  Pagination,
   Paper,
   Stack,
   Table,
@@ -25,7 +26,7 @@ import ModalDelete from '../../components/ModalDelete';
 function PropuestaSList() {
   const propuestaModal = useModal(PropuestasModalCreateOrUpdate);
   const modalDelete = useModal(ModalDelete);
-  const [propuestas, setPropuestas] = useState([]);
+  const [propuestas, setPropuestas] = useState(null);
   const [info, setInfo] = useState(null);
   const [loading, setLoading] = useState(null);
   const breadCrumbs = useMemo(
@@ -77,12 +78,12 @@ function PropuestaSList() {
     },
     [modalDelete]
   );
-  async function fetchData() {
+  async function fetchDataPropuestas(page = 1) {
     try {
-      const response = await PropuestasServices.get();
+      const response = await PropuestasServices.get(page);
 
       if (response.status === 200) {
-        setPropuestas(response.data.data);
+        setPropuestas(response.data);
       }
     } catch (error) {
       setInfo({
@@ -92,7 +93,7 @@ function PropuestaSList() {
     }
   }
   useEffect(() => {
-    fetchData();
+    fetchDataPropuestas();
   }, []);
   return (
     <Stack sx={{ margin: '0px 60px' }}>
@@ -131,31 +132,47 @@ function PropuestaSList() {
             </Row>
           </TableHead>
           <TableBody>
-            {propuestas.map((propuesta) => (
-              <Row sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <Cell>{propuesta.numero_propuesta}</Cell>
-                <Cell>{propuesta.nombre}</Cell>
-                <Cell>{propuesta.tipo}</Cell>
-                <Cell>{propuesta.fecha_inicial}</Cell>
-                <Cell>{propuesta.empresa_beneficiaria.nombre}</Cell>
-                <Cell>
-                  <ButtonView onClick={() => {}} />
-                  <ButtonEdit
-                    onClick={() => {
-                      handleEditPropuesta(propuesta);
-                    }}
-                  />
-                  <ButtonDelete
-                    onClick={() => {
-                      handleDeletePropuesta(propuesta.id);
-                    }}
-                  />
-                </Cell>
-              </Row>
-            ))}
+            {propuestas &&
+              propuestas.data.map((propuesta) => (
+                <Row
+                  key={propuesta.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <Cell>{propuesta.numero_propuesta}</Cell>
+                  <Cell>{propuesta.nombre}</Cell>
+                  <Cell>{propuesta.tipo}</Cell>
+                  <Cell>{propuesta.fecha_inicial}</Cell>
+                  <Cell>{propuesta.empresa_beneficiaria.nombre}</Cell>
+                  <Cell>
+                    <ButtonView onClick={() => {}} />
+                    <ButtonEdit
+                      onClick={() => {
+                        handleEditPropuesta(propuesta);
+                      }}
+                    />
+                    <ButtonDelete
+                      onClick={() => {
+                        handleDeletePropuesta(propuesta.id);
+                      }}
+                    />
+                  </Cell>
+                </Row>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Stack direction="row" marginTop="10px" justifyContent="right">
+        {propuestas && propuestas.total > propuestas.per_page && (
+          <Pagination
+            count={Math.ceil(propuestas.total / propuestas.per_page)}
+            color="primary"
+            page={propuestas.current_page}
+            onChange={(event, page) => {
+              fetchDataPropuestas(page);
+            }}
+          />
+        )}
+      </Stack>
     </Stack>
   );
 }

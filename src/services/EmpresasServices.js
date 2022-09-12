@@ -25,4 +25,8 @@ EmpresasServices.update = async (request) => {
   );
   return data;
 };
+EmpresasServices.getId = async (id) => {
+  const { data } = await axios.get(`${baseUrl}/empresas/show/${id}`);
+  return data;
+};
 export default EmpresasServices;

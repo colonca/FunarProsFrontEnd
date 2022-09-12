@@ -67,7 +67,6 @@ function EmpleadosCreateOrUpdate() {
     ],
     []
   );
-
   useEffect(() => {
     if (id) {
       fechaDataEmpleadoId();

@@ -3,8 +3,8 @@ import axios from 'axios';
 const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 
 const InstitucionesServices = {};
-InstitucionesServices.get = async () => {
-  const { data } = await axios.get(`${baseUrl}/institucion`);
+InstitucionesServices.get = async (page = 1) => {
+  const { data } = await axios.get(`${baseUrl}/institucion?page=${page}`);
   return data;
 };
 InstitucionesServices.post = async (request) => {

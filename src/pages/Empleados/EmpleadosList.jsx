@@ -1,5 +1,6 @@
 import {
   Alert,
+  Pagination,
   Paper,
   Stack,
   Table,
@@ -25,16 +26,16 @@ import ModalDelete from '../../components/ModalDelete';
 function EmpleadosList() {
   const navigate = useNavigate();
   const modalDelete = useModal(ModalDelete);
-  const [empleados, setEmpleados] = useState([]);
+  const [empleados, setEmpleados] = useState(null);
   const [info, setInfo] = useState(null);
   const [loading, setLoading] = useState(null);
 
-  async function fechDataEmpleados() {
+  async function fechDataEmpleados(page = 1) {
     try {
-      const response = await EmpleadosServices.get();
+      const response = await EmpleadosServices.get(page);
 
       if (response.status === 200) {
-        setEmpleados(response.data.data);
+        setEmpleados(response.data);
       }
     } catch (error) {
       setInfo({
@@ -126,35 +127,48 @@ function EmpleadosList() {
             </Row>
           </TableHead>
           <TableBody>
-            {empleados.map((empleado) => (
-              <Row
-                key={empleado.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <Cell>{empleado.documento.initials}</Cell>
-                <Cell>{`${empleado.nombres} ${empleado.apellidos}`}</Cell>
+            {empleados &&
+              empleados.data.map((empleado) => (
+                <Row
+                  key={empleado.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <Cell>{empleado.documento.initials}</Cell>
+                  <Cell>{`${empleado.nombres} ${empleado.apellidos}`}</Cell>
 
-                <Cell>{empleado.numero_telefono}</Cell>
-                <Cell>{empleado.genero.name}</Cell>
-                <Cell>{empleado.ocupacion}</Cell>
-                <Cell>
-                  <ButtonView onClick={() => {}} />
-                  <ButtonEdit
-                    onClick={() => {
-                      navigate(`/gestion/empleados/editar/${empleado.id}`);
-                    }}
-                  />
-                  <ButtonDelete
-                    onClick={() => {
-                      handleDeleteEmpleados(empleado.id);
-                    }}
-                  />
-                </Cell>
-              </Row>
-            ))}
+                  <Cell>{empleado.numero_telefono}</Cell>
+                  <Cell>{empleado.genero.name}</Cell>
+                  <Cell>{empleado.ocupacion}</Cell>
+                  <Cell>
+                    <ButtonView onClick={() => {}} />
+                    <ButtonEdit
+                      onClick={() => {
+                        navigate(`/gestion/empleados/editar/${empleado.id}`);
+                      }}
+                    />
+                    <ButtonDelete
+                      onClick={() => {
+                        handleDeleteEmpleados(empleado.id);
+                      }}
+                    />
+                  </Cell>
+                </Row>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Stack direction="row" marginTop="10px" justifyContent="right">
+        {empleados && empleados.total > empleados.per_page && (
+          <Pagination
+            count={Math.ceil(empleados.total / empleados.per_page)}
+            color="primary"
+            page={empleados.current_page}
+            onChange={(event, page) => {
+              fechDataEmpleados(page);
+            }}
+          />
+        )}
+      </Stack>
     </Stack>
   );
 }

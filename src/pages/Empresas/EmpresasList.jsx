@@ -96,9 +96,11 @@ function EmpresasList() {
               ))}
           </TableBody>
         </Table>
-        {empresas && empresas.total > 1 && (
+      </TableContainer>
+      <Stack direction="row" justifyContent="right">
+        {empresas && empresas.total > empresas.per_page && (
           <Pagination
-            count={empresas.total}
+            count={empresas.total / empresas.per_page}
             color="primary"
             page={empresas.current_page}
             onChange={(event, page) => {
@@ -106,7 +108,7 @@ function EmpresasList() {
             }}
           />
         )}
-      </TableContainer>
+      </Stack>
     </Stack>
   );
 }

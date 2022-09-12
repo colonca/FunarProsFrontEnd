@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import {
   Alert,
@@ -24,8 +24,9 @@ import EmpresasServices from '../../services/EmpresasServices';
 import InstitucionesServices from '../../services/InstitucionesServices';
 import validationSchemeDataProuesta from './ValidationSchemeDataPropuesta';
 import Loading from '../../components/Loading';
+import PropuestasServices from '../../services/PropuestasServices';
 
-function PropuestasModalCreateOrUpdate() {
+function PropuestasModalCreateOrUpdate({ propuesta }) {
   const [info, setInfo] = useState(null);
   const [estados, setEstados] = useState([]);
   const [empresas, setEmpresas] = useState([]);
@@ -101,11 +102,70 @@ function PropuestasModalCreateOrUpdate() {
       setLoading(null);
     }
   }
+  const handleSubmit = useCallback(
+    async (values) => {
+      const newPropuesta = { ...values };
+      const Propuesta = {
+        numero_propuesta: newPropuesta.numero_propuesta,
+        tipo: newPropuesta.tipo.value,
+        nombre: newPropuesta.nombre,
+        fecha_inicial: newPropuesta.fecha_inicial,
+        empresa_contratista_id: newPropuesta.empresaContratista.value,
+        empresa_beneficiaria_id: newPropuesta.empresaBeneficiaria.value,
+        estado_id: newPropuesta.estado.value,
+        instituciones: newPropuesta.institucion_id
+      };
+      try {
+        let response = null;
+
+        if (propuesta) {
+          response = await PropuestasServices.update({
+            id: propuesta.id,
+            ...Propuesta
+          });
+        } else {
+          response = await PropuestasServices.post(Propuesta);
+        }
+        if (response.status === 200) {
+          setInfo({
+            type: 'success',
+            message: response.message
+          });
+        }
+      } catch (error) {
+        setInfo({
+          type: 'error',
+          message: 'se ha producido un error, por favor intentelo más tarde.'
+        });
+      }
+    },
+    [propuesta]
+  );
   useEffect(() => {
+    if (propuesta !== undefined) {
+      console.log(propuesta);
+      setData({
+        ...propuesta,
+        numero_propuesta: propuesta.numero_propuesta,
+        nombre: propuesta.nombre,
+        fecha_inicial: propuesta.fecha_inicial,
+        tipo: { label: propuesta.tipo, value: propuesta.tipo },
+        empresaBeneficiaria: {
+          label: propuesta.empresa_beneficiaria.nombre,
+          value: propuesta.empresa_beneficiaria.nombre
+        },
+        estado: {
+          label: propuesta.estados.name,
+          value: propuesta.estados.id
+        },
+        empresaContratista: { label: propuesta.tipo, value: propuesta.tipo }
+      });
+    }
+
     fechDataEstados();
     fechDataEmpresa();
     fechDataInstituciones();
-  }, []);
+  }, [propuesta]);
   return (
     <Dialog
       fullScreen={false}
@@ -131,7 +191,7 @@ function PropuestasModalCreateOrUpdate() {
         />
       </Stack>
       <DialogTitle sx={{ padding: '10px', margin: '0px 10px' }}>
-        Crear Propuesta
+        {propuesta ? 'Actualizar Propuesta' : ' Crear Propuesta'}
       </DialogTitle>
       <DialogContent>
         {loading && <Loading />}
@@ -176,7 +236,7 @@ function PropuestasModalCreateOrUpdate() {
             }
           }
           onSubmit={(values, { resetForm }) => {
-            console.log(values);
+            handleSubmit(values);
             resetForm();
           }}
         >
@@ -305,7 +365,7 @@ function PropuestasModalCreateOrUpdate() {
                   </Grid>
                 </Grid>
               </Box>
-              {formik.values.tipo.value === 'PAE' && (
+              {formik.values.tipo.value === 'CONTRATO PAE' && (
                 <Box sx={{ padding: '0px 40px 0px 40px ' }}>
                   <SelectCommon
                     options={instituciones}
@@ -337,7 +397,9 @@ function PropuestasModalCreateOrUpdate() {
                 >
                   CANCELAR
                 </ButtonCommon>
-                <ButtonCommon type="submit">GUARDAR</ButtonCommon>
+                <ButtonCommon type="submit">
+                  {propuesta ? 'ACTUALIZAR' : 'GUARDAR'}
+                </ButtonCommon>
               </Stack>
             </form>
           )}

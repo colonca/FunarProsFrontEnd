@@ -6,7 +6,8 @@ import {
   TableHead,
   Stack,
   Alert,
-  List
+  List,
+  Pagination
 } from '@mui/material';
 import { React, useEffect, useMemo, useState, useCallback } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
@@ -27,7 +28,7 @@ import ModalDelete from '../../components/ModalDelete';
 function InstitucionesList() {
   const institucionModal = useModal(InstitucionesCreateModal);
   const modalDelete = useModal(ModalDelete);
-  const [instituciones, setInstituciones] = useState([]);
+  const [instituciones, setInstituciones] = useState(null);
   const [info, setInfo] = useState(null);
   const [loading, setLoading] = useState(null);
   const [departamentos, setDepartamentos] = useState([]);
@@ -95,12 +96,12 @@ function InstitucionesList() {
       });
     }
   }
-  async function fetchData() {
+  async function fetchDataInstituciones(page = 1) {
     try {
-      const response = await InstitucionesServices.get();
+      const response = await InstitucionesServices.get(page);
 
       if (response.status === 200) {
-        setInstituciones(response.data.data);
+        setInstituciones(response.data);
       }
     } catch (error) {
       setInfo({
@@ -110,7 +111,7 @@ function InstitucionesList() {
     }
   }
   useEffect(() => {
-    fetchData();
+    fetchDataInstituciones();
     fechDataDepartamentos();
   }, []);
   return (
@@ -152,36 +153,49 @@ function InstitucionesList() {
             </Row>
           </TableHead>
           <TableBody>
-            {instituciones.map((institucion) => (
-              <Row
-                key={institucion.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <Cell>{institucion.identificacion}</Cell>
-                <Cell>{institucion.nombre}</Cell>
-                <Cell>{institucion.tipo}</Cell>
-                <Cell>{institucion.inicio_convenio}</Cell>
-                <Cell>{institucion.telefono}</Cell>
-                <Cell>{institucion.term.name}</Cell>
-                <Cell>{institucion.email}</Cell>
-                <Cell>
-                  <ButtonView onClick={() => {}} />
-                  <ButtonEdit
-                    onClick={() => {
-                      handleEditInstitucion(institucion);
-                    }}
-                  />
-                  <ButtonDelete
-                    onClick={() => {
-                      handleDeleteInstitucion(institucion.id);
-                    }}
-                  />
-                </Cell>
-              </Row>
-            ))}
+            {instituciones &&
+              instituciones.data.map((institucion) => (
+                <Row
+                  key={institucion.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <Cell>{institucion.identificacion}</Cell>
+                  <Cell>{institucion.nombre}</Cell>
+                  <Cell>{institucion.tipo}</Cell>
+                  <Cell>{institucion.inicio_convenio}</Cell>
+                  <Cell>{institucion.telefono}</Cell>
+                  <Cell>{institucion.term.name}</Cell>
+                  <Cell>{institucion.email}</Cell>
+                  <Cell>
+                    <ButtonView onClick={() => {}} />
+                    <ButtonEdit
+                      onClick={() => {
+                        handleEditInstitucion(institucion);
+                      }}
+                    />
+                    <ButtonDelete
+                      onClick={() => {
+                        handleDeleteInstitucion(institucion.id);
+                      }}
+                    />
+                  </Cell>
+                </Row>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Stack direction="row" marginTop="10px" justifyContent="right">
+        {instituciones && instituciones.total > instituciones.per_page && (
+          <Pagination
+            count={Math.ceil(instituciones.total / instituciones.per_page)}
+            color="primary"
+            page={instituciones.current_page}
+            onChange={(event, page) => {
+              fetchDataInstituciones(page);
+            }}
+          />
+        )}
+      </Stack>
     </Stack>
   );
 }

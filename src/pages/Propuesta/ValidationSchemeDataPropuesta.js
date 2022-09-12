@@ -15,7 +15,7 @@ const validationSchemeDataProuesta = Yup.object().shape({
   nombre: Yup.string().required('El nombre del contrato es requerido'),
   tipo: Yup.object().required('El tipo de contrato es requerido'),
   institucion_id: Yup.object().when('tipo', (tipo) => {
-    if (tipo && tipo.value === 'PAE') {
+    if (tipo && tipo.value === 'CONTRATO PAE') {
       return Yup.array().min(
         1,
         'La institución es requerida, debe seleccionar al menos una'
