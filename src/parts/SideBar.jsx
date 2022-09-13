@@ -58,10 +58,10 @@ function Sidebar() {
           <SidebarLink
             link="gestion/propuestas"
             icon={<CollectionsBookmarkOutlinedIcon />}
-            title="Propuesta contrato"
+            title="Contrato"
           />
         </SidebarDropdown>
-        <SidebarDropdown
+        {/* <SidebarDropdown
           icon={<MiscellaneousServicesOutlinedIcon />}
           title="Servicios"
         >
@@ -83,6 +83,7 @@ function Sidebar() {
             title="Contratos"
           />
         </SidebarDropdown>
+*/}
 
         <SidebarLink
           icon={<CurtainsClosedIcon sx={{ color: 'white' }} />}

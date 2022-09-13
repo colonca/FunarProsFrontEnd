@@ -1,18 +1,13 @@
 import { Grid, Stack } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useModal } from '@ebay/nice-modal-react';
+import { Formik } from 'formik';
 import ButtonCommon from '../../../components/ButtonCommon';
 import SelectCommon from '../../../components/SelectCommon';
-import TextFieldCommon from '../../../components/TextFieldCommon';
 import InstitucionesCreateModal from '../InstitucionesCreateModal';
 import MunicipiosServices from '../../../services/MunicipiosServices';
 import DepartamentosServices from '../../../services/DepartamentosServices';
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-];
 function Filters() {
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
@@ -24,7 +19,7 @@ function Filters() {
       const response = await DepartamentosServices.get();
       if (response.status === 200) {
         setDepartamentos(
-          response.data.map((item) => ({ label: item.name, value: item.id }))
+          response.data.map((item) => ({ value: item.id, label: item.name }))
         );
         setLoading(false);
       }
@@ -56,37 +51,62 @@ function Filters() {
   }
 
   const modal = useModal(InstitucionesCreateModal);
-
+  useEffect(() => {
+    fechDataDepartamentos();
+  }, []);
   return (
-    <Grid container direction="row" spacing={2} marginTop={1} marginBottom={2}>
-      <Grid item lg={3}>
-        <SelectCommon label="Departamento" options={departamentos} />
-      </Grid>
-      <Grid item lg={3}>
-        <SelectCommon label="Municipio" options={options} />
-      </Grid>
-      <Grid item lg={3}>
-        <TextFieldCommon label="Nombre" />
-      </Grid>
-      <Grid item lg={3}>
-        <Stack direction="row">
-          <ButtonCommon
-            variant="outlined"
-            sx={{ marginTop: '20px', marginRight: '5px' }}
-          >
-            BUSCAR
-          </ButtonCommon>
-          <ButtonCommon
-            sx={{ marginTop: '20px' }}
-            onClick={() => {
-              modal.show();
+    <Formik
+      enableReinitialize
+      initialValues={{
+        departamento: '',
+        municipio: ''
+      }}
+      onSubmit={(values, { resetForm }) => {
+        // handleSubmit(values);
+        resetForm();
+      }}
+    >
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        marginTop={1}
+        marginBottom={2}
+      >
+        <Grid item lg={5}>
+          <SelectCommon
+            options={departamentos}
+            label="Departamento"
+            onChange={(departamento) => {
+              fechDataMunicipios(departamento.value);
             }}
-          >
-            AGREGAR
-          </ButtonCommon>
-        </Stack>
+          />
+        </Grid>
+
+        <Grid item lg={4}>
+          <SelectCommon label="Municipio" options={municipios} />
+        </Grid>
+        <Grid item lg={3}>
+          <Stack direction="row">
+            <ButtonCommon
+              variant="outlined"
+              sx={{ marginTop: '20px', marginRight: '5px' }}
+            >
+              BUSCAR
+            </ButtonCommon>
+
+            <ButtonCommon
+              sx={{ marginTop: '20px' }}
+              onClick={() => {
+                modal.show();
+              }}
+            >
+              AGREGAR
+            </ButtonCommon>
+          </Stack>
+        </Grid>
       </Grid>
-    </Grid>
+    </Formik>
   );
 }
 

@@ -191,7 +191,7 @@ function PropuestasModalCreateOrUpdate({ propuesta }) {
         />
       </Stack>
       <DialogTitle sx={{ padding: '10px', margin: '0px 10px' }}>
-        {propuesta ? 'Actualizar Propuesta' : ' Crear Propuesta'}
+        {propuesta ? 'Actualizar Contrato' : ' Crear Contrato'}
       </DialogTitle>
       <DialogContent>
         {loading && <Loading />}

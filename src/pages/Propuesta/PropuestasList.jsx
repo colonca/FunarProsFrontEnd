@@ -18,10 +18,10 @@ import Row from '../../components/Table/Row';
 import ButtonDelete from '../../components/ButtonsAction/ActionDelete';
 import ButtonEdit from '../../components/ButtonsAction/ActionEdit';
 import ButtonView from '../../components/ButtonsAction/ActionView';
-import Filters from './components/Filters';
 import PropuestasModalCreateOrUpdate from './PropuestasModalCreateOrUpdate';
 import PropuestasServices from '../../services/PropuestasServices';
 import ModalDelete from '../../components/ModalDelete';
+import Filters from './components/Filters';
 
 function PropuestaSList() {
   const propuestaModal = useModal(PropuestasModalCreateOrUpdate);
