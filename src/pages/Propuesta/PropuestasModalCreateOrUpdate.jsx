@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import {
@@ -16,7 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import ActionCerrar from '../../components/ButtonsAction/ActionCerrar';
 import SelectCommon from '../../components/SelectCommon';
-import EstadosServices from '../../services/estadosServices';
+import EstadosServices from '../../services/EstadosServices';
 import TextFieldCommon from '../../components/TextFieldCommon';
 import ButtonCommon from '../../components/ButtonCommon';
 import DatePickerCommon from '../../components/Datepicker';
