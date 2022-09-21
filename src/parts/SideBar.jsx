@@ -9,6 +9,7 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import CurtainsClosedIcon from '@mui/icons-material/CurtainsClosed';
+import { useKeycloak } from '@react-keycloak/web';
 import Logo from '../assets/images/logo-blanco.png';
 
 // componentss
@@ -18,6 +19,8 @@ import SidebarLink from '../components/SidebarLink/index';
 // import '../assets/sidebar.css';
 
 function Sidebar() {
+  const { keycloak } = useKeycloak();
+
   return (
     <Stack direction="column" sx={{ width: '100%', height: '100vh' }}>
       <Box
@@ -87,6 +90,14 @@ function Sidebar() {
           link="reporte/contratos"
           title="Cerrar Sesion"
         />
+        <button
+          type="button"
+          onClick={() => {
+            keycloak.logout();
+          }}
+        >
+          salir
+        </button>
       </Stack>
     </Stack>
   );
