@@ -11,6 +11,7 @@ import DepartamentosServices from '../../../services/DepartamentosServices';
 function Filters() {
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
+  const [filter, setFilter] = useState([]);
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState(null);
   async function fechDataDepartamentos() {
@@ -84,7 +85,14 @@ function Filters() {
         </Grid>
 
         <Grid item lg={4}>
-          <SelectCommon label="Municipio" options={municipios} />
+          <SelectCommon
+            label="Municipio"
+            options={municipios}
+            onChange={(municipio) => {
+              setFilter(municipio.value);
+              console.log(municipio.value);
+            }}
+          />
         </Grid>
         <Grid item lg={3}>
           <Stack direction="row">

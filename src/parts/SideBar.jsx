@@ -3,14 +3,10 @@ import { Stack, Box } from '@mui/material';
 
 // icons
 
-import SchemaOutlinedIcon from '@mui/icons-material/SchemaOutlined';
-import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import AddBusinessOutlinedIcon from '@mui/icons-material/AddBusinessOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import MiscellaneousServicesOutlinedIcon from '@mui/icons-material/MiscellaneousServicesOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import CurtainsClosedIcon from '@mui/icons-material/CurtainsClosed';
 import Logo from '../assets/images/logo-blanco.png';
@@ -61,6 +57,7 @@ function Sidebar() {
             title="Contrato"
           />
         </SidebarDropdown>
+
         {/* <SidebarDropdown
           icon={<MiscellaneousServicesOutlinedIcon />}
           title="Servicios"
@@ -82,9 +79,9 @@ function Sidebar() {
             link="reporte/contratos"
             title="Contratos"
           />
-        </SidebarDropdown>
-*/}
 
+        </SidebarDropdown>
+ */}
         <SidebarLink
           icon={<CurtainsClosedIcon sx={{ color: 'white' }} />}
           link="reporte/contratos"

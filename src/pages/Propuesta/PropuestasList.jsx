@@ -49,15 +49,12 @@ function PropuestaSList() {
           const response = await PropuestasServices.delete(id);
           if (response.status === 200) {
             setPropuestas((state) => {
-              const list = state.filter((item) => item.id !== id);
-              if (list === null) {
-                return state;
-              }
-              return list;
+              const list = state.data.filter((item) => item.id !== id);
+              return { ...state, data: list };
             });
             setInfo({
               type: 'success',
-              message: 'Institución eliminada correctamente'
+              message: 'Contrato eliminado correctamente'
             });
           } else {
             setInfo({
@@ -119,6 +116,7 @@ function PropuestaSList() {
           {info.message}
         </Alert>
       )}
+      {console.log(propuestas)}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

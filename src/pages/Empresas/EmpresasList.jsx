@@ -1,4 +1,5 @@
 import {
+  Alert,
   Pagination,
   Paper,
   Stack,
@@ -10,6 +11,8 @@ import {
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '@ebay/nice-modal-react';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Cell from '../../components/Table/Cell';
 import Row from '../../components/Table/Row';
@@ -24,6 +27,7 @@ function EmpresasList() {
   const [empresas, setEmpresas] = useState(null);
   const modalDelete = useModal(ModalDelete);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(null);
   const [info, setInfo] = useState(null);
   async function fechDataEmpresas(page = 1) {
     try {
@@ -45,9 +49,40 @@ function EmpresasList() {
     ],
     []
   );
-  const handleDeleteEmpresas = useCallback((id) => {
-    modalDelete.show();
-  });
+
+  const handleDeleteEmpresas = useCallback(
+    (id) => {
+      modalDelete.show().then(async () => {
+        try {
+          const response = await EmpresasServices.delete(id);
+          if (response.status === 200) {
+            setEmpresas((state) => {
+              const list = state.data.filter((item) => item.id !== id);
+              return { ...state, data: list };
+            });
+            setInfo({
+              type: 'success',
+              message: 'Empresa eliminada correctamente'
+            });
+          } else {
+            setInfo({
+              type: 'warning',
+              message: response.message
+            });
+          }
+        } catch (error) {
+          setInfo({
+            type: 'error',
+            message: 'se ha producido un error, por favor intentalo más tarde.'
+          });
+        } finally {
+          setLoading(false);
+          modalDelete.remove();
+        }
+      });
+    },
+    [modalDelete]
+  );
   useEffect(() => {
     fechDataEmpresas();
   }, []);
@@ -55,6 +90,26 @@ function EmpresasList() {
     <Stack sx={{ margin: '0px 60px' }}>
       <BreadCrumbs items={breadCrumbs} />
       <Filters />
+      {info && (
+        <Alert
+          severity={info.type}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setInfo(null);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          {info.message}
+        </Alert>
+      )}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -78,7 +133,7 @@ function EmpresasList() {
                   <Cell>{empresa.nombre}</Cell>
                   <Cell>{empresa.email}</Cell>
                   <Cell>{empresa.fecha_convenio}</Cell>
-                  <Cell>{empresa.term.parent.name}</Cell>
+                  <Cell>{empresa.term.name}</Cell>
                   <Cell>
                     <ButtonView onClick={() => {}} />
                     <ButtonEdit

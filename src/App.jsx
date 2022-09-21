@@ -81,7 +81,6 @@ function App() {
                 path="gestion/propuestas"
                 element={<PropuestasList />}
               />
-
               <Route path="servicio/contrato-obras-civiles" />
               <Route path="servicio/contrato-pae" />
               <Route path="reporte/pae" />

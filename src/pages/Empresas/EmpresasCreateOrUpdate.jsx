@@ -35,7 +35,8 @@ function EmpresasCreateOrUpdate() {
           email: response.data.email,
           telefono: response.data.telefono,
           fecha_convenio: response.data.fecha_convenio,
-          direccion: response.data.direccion
+          direccion: response.data.direccion,
+          documentos: response.data.documentos
         });
       }
     } catch (error) {
