@@ -142,7 +142,6 @@ function PropuestasModalCreateOrUpdate({ propuesta }) {
   );
   useEffect(() => {
     if (propuesta !== undefined) {
-      console.log(propuesta);
       setData({
         ...propuesta,
         numero_propuesta: propuesta.numero_propuesta,

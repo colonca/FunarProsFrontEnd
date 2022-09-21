@@ -60,6 +60,7 @@ function Sidebar() {
             title="Contrato"
           />
         </SidebarDropdown>
+
         {/* <SidebarDropdown
           icon={<MiscellaneousServicesOutlinedIcon />}
           title="Servicios"
@@ -81,9 +82,9 @@ function Sidebar() {
             link="reporte/contratos"
             title="Contratos"
           />
-        </SidebarDropdown>
-*/}
 
+        </SidebarDropdown>
+ */}
         <SidebarLink
           icon={<CurtainsClosedIcon sx={{ color: 'white' }} />}
           link="reporte/contratos"

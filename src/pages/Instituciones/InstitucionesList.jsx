@@ -54,11 +54,8 @@ function InstitucionesList() {
           const response = await InstitucionesServices.delete(id);
           if (response.status === 200) {
             setInstituciones((state) => {
-              const list = state.filter((item) => item.id !== id);
-              if (list === null) {
-                return state;
-              }
-              return list;
+              const list = state.data.filter((item) => item.id !== id);
+              return { ...state, data: list };
             });
             setInfo({
               type: 'success',

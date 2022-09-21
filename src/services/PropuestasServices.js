@@ -8,7 +8,11 @@ PropuestasServices.get = async (page = 1) => {
   return data;
 };
 PropuestasServices.delete = async (id) => {
-  const { data } = await axios.delete(`${baseUrl}/propuestas/${id}`);
+  const { data } = await axios.delete(`${baseUrl}/propuestas/delete/${id}`);
+  return data;
+};
+PropuestasServices.getId = async (id) => {
+  const { data } = await axios.get(`${baseUrl}/propuestas/show/${id}`);
   return data;
 };
 PropuestasServices.post = async (request) => {

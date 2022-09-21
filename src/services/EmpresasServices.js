@@ -29,4 +29,8 @@ EmpresasServices.getId = async (id) => {
   const { data } = await axios.get(`${baseUrl}/empresas/show/${id}`);
   return data;
 };
+EmpresasServices.delete = async (id) => {
+  const { data } = await axios.delete(`${baseUrl}/empresas/delete/${id}`);
+  return data;
+};
 export default EmpresasServices;
